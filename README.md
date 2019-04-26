@@ -7,7 +7,7 @@ Nextcloud FPM with SSLH simple server docker-compose script
 
 Create a new docker network for Traefik :
 ```bash
-docker network create http_network
+docker network create proxy-net
 ```
 
 Pull Docker images :
