@@ -1,0 +1,111 @@
+version: "3"
+
+# proxy-net network creation  
+# docker network create proxy-net
+
+services:
+
+  sslh:
+    restart: unless-stopped
+    image: shaddysignal/sslh-hub
+    container_name: sslh
+    ports:
+      - "443:443"
+    container_name: sslh
+    environment:
+      - LISTEN_IP=0.0.0.0
+      - LISTEN_PORT=443
+      - SSH_HOST=172.17.0.1
+      - SSH_PORT=22
+      - HTTPS_HOST=172.17.0.1
+      - HTTPS_PORT=8443
+
+  traefik:
+    restart: unless-stopped
+    image: traefik:1.7-alpine
+    container_name: traefik
+    networks:
+      - proxy-net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./conf/traefik.toml:/traefik.toml:ro
+      - ${CERT_PATH}:/etc/traefik/acme
+    ports:
+     - "80:80"
+     - "8443:443"
+    labels:
+     - "traefik.enable=true"
+     - "traefik.port=8080"
+     - "traefik.frontend.rule=Host:monitor.${DOMAIN}"
+     - "traefik.docker.network=proxy-net"
+
+  cloud_app:
+    image: nextcloud:15.0.7-fpm
+    container_name: cloud_app
+    restart: unless-stopped
+    depends_on:
+      - cloud_db
+      - cloud_redis
+    volumes:
+      - cloud_app_dir:/var/www/html
+      - ./conf/redis.config.php:/usr/src/nextcloud/config/redis.config.php
+      - ${DATA_PATH}/nextcloud:/var/www/html/config
+      - ${DATA_PATH}/nextcloud:/var/www/html/data
+    networks:
+      - cloud-net
+    environment:
+      MYSQL_HOST: cloud_db
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+  cloud_web:
+    image: nginx:1.14.2-alpine
+    container_name: cloud_web
+    restart: unless-stopped
+    volumes:
+      - ./conf/nginx.conf:/etc/nginx/nginx.conf
+      - cloud_app_dir:/var/www/html:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:cloud.${DOMAIN}"
+      - "traefik.docker.network=proxy-net"
+    depends_on:
+      - cloud_app
+    networks:
+      - proxy-net
+      - cloud-net
+
+  cloud_db:
+    image: mariadb
+    container_name: cloud_db
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    restart: unless-stopped
+    volumes:
+      - "${DATA_PATH}/mysql:/var/lib/mysql"
+    networks:
+      - cloud-net
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=${MYSQL_USER}
+
+  cloud_redis:
+    image: redis:5.0.4-alpine
+    container_name: cloud_redis
+    restart: unless-stopped
+    networks:
+      - cloud-net
+
+
+networks:
+  proxy-net:
+    external: true
+  cloud-net:
+    external: false
+
+
+volumes:
+  cloud_app_dir:
+  cloud_db_dir:
