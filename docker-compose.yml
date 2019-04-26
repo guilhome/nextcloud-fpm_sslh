@@ -55,7 +55,7 @@ services:
       - cloud-net
     environment:
       MYSQL_HOST: cloud_db
-      MYSQL_DATABASE: nextcloud
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
@@ -88,7 +88,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_DATABASE=nextcloud
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
 
   cloud_redis:
