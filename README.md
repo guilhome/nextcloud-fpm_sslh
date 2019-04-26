@@ -1,6 +1,17 @@
 # nextcloud-fpm_sslh
 Nextcloud FPM with SSLH simple server docker-compose script
 
+### Versions
+
+| Name | Version |
+| ---- | ------- |
+| shaddysignal/sslh-hub | latest |
+| traefik | 1.7-alpine |
+| nextcloud | 15.0.7-fpm |
+| nginx | 1.14.2-alpine |
+| mariadb | latest |
+| refis | 5.0.4-alpine |
+
 ### Installation
 
 #### 1 - Prepare your environment
