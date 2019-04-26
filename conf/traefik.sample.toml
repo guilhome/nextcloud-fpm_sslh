@@ -1,0 +1,46 @@
+logLevel = "INFO"
+defaultEntryPoints = ["http", "https"]
+
+[entryPoints]
+  [entryPoints.dashboard]
+    address = ":8080"
+    [entryPoints.dashboard.auth]
+      [entryPoints.dashboard.auth.basic]
+        users = ["admin:$apr1$C9l6a8UQ$lmh.GtthyIf/J9jM2TnGW/"]
+  [entryPoints.http]
+    address = ":80"
+      [entryPoints.http.redirect]
+        entryPoint = "https"
+  [entryPoints.https]
+    address = ":443"
+      [entryPoints.https.tls]
+      minVersion = "VersionTLS12"
+      cipherSuites = [
+        "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305",
+        "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+        "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+        "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256",
+        "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
+        "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA"
+      ]
+
+[api]
+entrypoint="dashboard"
+
+[accessLog]
+filePath = "/var/log/access.log"
+
+[acme]
+email = "{{ YOUR_EMAIL }}"
+storage = "/etc/traefik/acme/acme.json"
+entryPoint = "https"
+# Staging Let's Encrypt server for test purpose :
+# caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+onHostRule = true
+  [acme.tlsChallenge]
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "{{ YOUR_DOMAIN }}"
+watch = true
+exposedbydefault = false
