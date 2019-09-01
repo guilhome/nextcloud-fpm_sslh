@@ -32,7 +32,7 @@ docker-compose pull
 
 #### 2 - Edit environment file and Traefik configuration file
 
-Edit the `.env` and `conf/traefik.toml` and adapt to your needs
+Edit the `.env` and `conf/traefik.toml` and adapt to your needs :
 ```bash
 cp sample.env .env
 nano .env
