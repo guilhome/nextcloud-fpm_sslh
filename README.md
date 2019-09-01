@@ -14,7 +14,7 @@ Nextcloud FPM with SSLH simple server docker-compose script
 | nextcloud | 15.0.11-fpm |
 | nginx | 1.16.1-alpine |
 | mariadb | latest |
-| refis | 5.0.4-alpine |
+| redis | 5.0.4-alpine |
 
 ### Installation
 
