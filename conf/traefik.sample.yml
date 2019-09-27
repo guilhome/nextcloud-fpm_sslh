@@ -27,3 +27,8 @@ certificatesResolvers:
       storage: "/etc/traefik/acme/acme.json"
       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
       tlsChallenge: {}
+  letsencrypt:
+    acme:
+      email: "your_email"
+      storage: "/etc/traefik/acme/acme.json"
+      tlsChallenge: {}
