@@ -22,21 +22,29 @@ services:
 
   traefik:
     restart: unless-stopped
-    image: traefik:1.7.18-alpine
+    image: traefik:2.0.1
     container_name: traefik
     networks:
       - proxy-net
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./conf/traefik.toml:/traefik.toml:ro
+      - ./conf/traefik.yml:/etc/traefik/traefik.yml
+      - ./conf/traefik_dynamic_conf.yml:/etc/traefik/traefik_dynamic_conf.yml
       - ${CERT_PATH}:/etc/traefik/acme
     ports:
      - "80:80"
      - "8443:443"
     labels:
      - "traefik.enable=true"
-     - "traefik.port=8080"
-     - "traefik.frontend.rule=Host:monitor.${DOMAIN}"
+     - "traefik.http.routers.api_http.entrypoints=http"
+     - "traefik.http.routers.api_http.rule=Host(`monitor.${DOMAIN}`)"
+     - "traefik.http.routers.api_http.middlewares=httpsredirect@file"
+     - "traefik.http.routers.api.tls=true"
+     - "traefik.http.routers.api.rule=Host(`monitor.${DOMAIN}`)"
+     - "traefik.http.routers.api.entrypoints=https"
+     - "traefik.http.routers.api.service=api@internal"
+     - "traefik.http.routers.api.middlewares=test-auth@file"
+     - "traefik.http.routers.api.tls.certresolver=letsencrypt_staging"
      - "traefik.docker.network=proxy-net"
 
   cloud_app:
@@ -67,8 +75,16 @@ services:
       - ./conf/nginx.conf:/etc/nginx/nginx.conf
       - cloud_app_dir:/var/www/html:ro
     labels:
+      #- "traefik.enable=true"
+      #- "traefik.frontend.rule=Host:cloud.${DOMAIN}"
       - "traefik.enable=true"
-      - "traefik.frontend.rule=Host:cloud.${DOMAIN}"
+      - "traefik.http.routers.cloud_web_insecure.entrypoints=http"
+      - "traefik.http.routers.cloud_web_insecure.rule=Host(`cloud.${DOMAIN}`)"
+      - "traefik.http.routers.cloud_web_insecure.middlewares=httpsredirect@file"
+      - "traefik.http.routers.cloud_web_secure.tls=true"
+      - "traefik.http.routers.cloud_web_secure.entrypoints=https"
+      - "traefik.http.routers.cloud_web_secure.rule=Host(`cloud.${DOMAIN}`)"
+      - "traefik.http.routers.cloud_web_secure.tls.certresolver=letsencrypt_staging"
       - "traefik.docker.network=proxy-net"
     depends_on:
       - cloud_app
