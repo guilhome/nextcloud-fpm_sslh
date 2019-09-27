@@ -38,7 +38,7 @@ cp sample.env .env
 nano .env
 cp conf/traefik.sample.yml conf/traefik.yml
 nano conf/traefik.yml
-cp conf/traefik_dynamic_conf.sample.yml traefik_dynamic_conf.yml
+cp conf/traefik_dynamic_conf.sample.yml conf/traefik_dynamic_conf.yml
 nano conf/traefik_dynamic_conf.yml
 ```
 
