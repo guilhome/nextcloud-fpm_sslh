@@ -1,2 +1,4 @@
 traefik.toml
+traefik.yml
+traefik_dynamic_conf.yml
 .env
