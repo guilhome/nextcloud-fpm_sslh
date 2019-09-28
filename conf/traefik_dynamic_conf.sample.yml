@@ -3,7 +3,7 @@ http:
     httpsredirect:
       redirectScheme:
         scheme: https
-    test-auth:
+    dashboard-auth:
       basicAuth:
         users:
         - "admin:$apr1$9657f8.9$HqQ6RLiNsWFVf0JGI321X."
