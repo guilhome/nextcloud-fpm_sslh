@@ -43,7 +43,7 @@ services:
      - "traefik.http.routers.api.rule=Host(`monitor.${DOMAIN}`)"
      - "traefik.http.routers.api.entrypoints=https"
      - "traefik.http.routers.api.service=api@internal"
-     - "traefik.http.routers.api.middlewares=test-auth@file"
+     - "traefik.http.routers.api.middlewares=dashboard-auth@file"
      - "traefik.http.routers.api.tls.certresolver=letsencrypt"
      - "traefik.docker.network=proxy-net"
 
