@@ -22,7 +22,7 @@ services:
 
   traefik:
     restart: unless-stopped
-    image: traefik:2.1.6
+    image: traefik:2.2.1
     container_name: traefik
     networks:
       - proxy-net
@@ -48,7 +48,7 @@ services:
      - "traefik.docker.network=proxy-net"
 
   cloud_app:
-    image: nextcloud:16.0.8-fpm
+    image: nextcloud:16.0.10-fpm
     container_name: cloud_app
     restart: unless-stopped
     depends_on:
