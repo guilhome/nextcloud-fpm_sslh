@@ -4,6 +4,7 @@ Nextcloud FPM with SSLH simple server docker-compose script
 ### Summary
 - [Version](#versions)
 - [Installation](#installation)
+- [Post-Installation](post-installation)
 
 ### Versions
 
@@ -48,3 +49,21 @@ Start all services :
 ```
 docker-compose up -d
 ```
+
+
+### Post-Installation
+
+#### Configuration
+
+Stop all services :
+```
+docker-compose down
+```
+
+Edit config.php file :
+```
+nano $DATA/nextcloud/config.php
+```
+$DATA is the variable defined in .env file
+
+Add 'overwriteprotocol' => 'https' parameter at the end of config.php file
