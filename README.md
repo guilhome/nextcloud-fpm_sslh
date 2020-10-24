@@ -4,7 +4,7 @@ Nextcloud FPM with SSLH simple server docker-compose script
 ### Summary
 - [Version](#versions)
 - [Installation](#installation)
-- [Post-Installation](post-installation)
+- [Post-Installation](#post-installation)
 
 ### Versions
 
