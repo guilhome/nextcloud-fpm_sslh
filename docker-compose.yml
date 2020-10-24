@@ -22,7 +22,7 @@ services:
 
   traefik:
     restart: unless-stopped
-    image: traefik:2.3.1
+    image: traefik:2.3.2
     container_name: traefik
     networks:
       - proxy-net
@@ -68,7 +68,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
   cloud_web:
-    image: nginx:1.16.1-alpine
+    image: nginx:1.18.0-alpine
     container_name: cloud_web
     restart: unless-stopped
     volumes:
