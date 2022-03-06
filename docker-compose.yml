@@ -11,7 +11,6 @@ services:
     container_name: sslh
     ports:
       - "443:443"
-    container_name: sslh
     environment:
       - LISTEN_IP=0.0.0.0
       - LISTEN_PORT=443
@@ -22,7 +21,7 @@ services:
 
   traefik:
     restart: unless-stopped
-    image: traefik:2.3.2
+    image: traefik:2.3.7
     container_name: traefik
     networks:
       - proxy-net
@@ -48,7 +47,7 @@ services:
      - "traefik.docker.network=proxy-net"
 
   cloud_app:
-    image: nextcloud:17.0.10-fpm
+    image: nextcloud:21.0.9-fpm
     container_name: cloud_app
     restart: unless-stopped
     depends_on:

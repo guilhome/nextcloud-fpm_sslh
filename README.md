@@ -11,8 +11,8 @@ Nextcloud FPM with SSLH simple server docker-compose script
 | Name | Version |
 | :--: | :-----: |
 | shaddysignal/sslh-hub | latest |
-| traefik | 2.3.2 |
-| nextcloud | 17.0.10-fpm |
+| traefik | 2.3.7 |
+| nextcloud | 21.0.9-fpm |
 | nginx | 1.18.0-alpine |
 | mariadb | latest |
 | redis | 5.0.4-alpine |
