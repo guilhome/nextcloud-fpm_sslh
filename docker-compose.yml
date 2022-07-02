@@ -21,7 +21,7 @@ services:
 
   traefik:
     restart: unless-stopped
-    image: traefik:2.6.7
+    image: traefik:2.7.3
     container_name: traefik
     networks:
       - proxy-net
