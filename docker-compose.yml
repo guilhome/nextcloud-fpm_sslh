@@ -21,7 +21,7 @@ services:
 
   traefik:
     restart: unless-stopped
-    image: traefik:2.7.3
+    image: traefik:2.9.1
     container_name: traefik
     networks:
       - proxy-net
@@ -47,7 +47,7 @@ services:
      - "traefik.docker.network=proxy-net"
 
   cloud_app:
-    image: nextcloud:22.2.9-fpm
+    image: nextcloud:24.0.6-fpm
     container_name: cloud_app
     restart: unless-stopped
     depends_on:
@@ -67,7 +67,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
   cloud_web:
-    image: nginx:1.20.2-alpine
+    image: nginx:1.23.2-alpine
     container_name: cloud_web
     restart: unless-stopped
     volumes:
@@ -105,7 +105,7 @@ services:
       - MYSQL_USER=${MYSQL_USER}
 
   cloud_redis:
-    image: redis:5.0.4-alpine
+    image: redis:7.0.5-alpine
     container_name: cloud_redis
     restart: unless-stopped
     networks:
