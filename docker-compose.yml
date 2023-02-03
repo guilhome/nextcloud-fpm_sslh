@@ -47,7 +47,7 @@ services:
      - "traefik.docker.network=proxy-net"
 
   cloud_app:
-    image: nextcloud:24.0.8-fpm
+    image: nextcloud:24.0.9-fpm
     container_name: cloud_app
     restart: unless-stopped
     depends_on:
